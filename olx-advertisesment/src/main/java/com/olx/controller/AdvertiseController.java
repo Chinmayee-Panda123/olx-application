@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
@@ -65,4 +66,24 @@ public class AdvertiseController {
 		
 		return new ResponseEntity<>(addService.deleteById(id), HttpStatus.OK);
 	}
+	
+	// 13 filterCriateria
+	@GetMapping(value="/add/search")
+	public ResponseEntity<List<AdvertiseDto>> searchAddByFilter(
+	        @RequestParam (required=false) String searchText,
+	        @RequestParam (required=false) String title,
+	        @RequestParam (required=false) String description,
+//	        @RequestParam (required=false, defaultValue = "0") int category,
+	        @RequestParam (required=false) String postedBy,
+	        @RequestParam (required=false) String sortBy,
+	        @RequestParam (required=false, defaultValue = "0") int startIndex,
+	        @RequestParam (required=false, defaultValue = "10") int records
+	) {
+	    List<AdvertiseDto> results = addService.searchAddByFilter(searchText, title, description, postedBy, sortBy, startIndex, records);
+	    return new ResponseEntity<>(results, HttpStatus.OK);
+	}
+
+
+
+
 }
