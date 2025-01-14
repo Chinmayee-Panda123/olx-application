@@ -11,7 +11,7 @@ public class OlxAdvertisesmentApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OlxAdvertisesmentApplication.class, args);
-		System.out.println("Hello");
+		System.out.println("olx-advertise");
 	}
 
 	@Bean

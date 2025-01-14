@@ -56,12 +56,11 @@ public class AdvertiseController {
 	//Deletes specific advertisement posted by logged in user - authorization needed
 	@DeleteMapping(value="/delete/{id}")
 	public ResponseEntity<Boolean> deleteById(@PathVariable int id){
-		
 		return new ResponseEntity<>(addService.deleteById(id), HttpStatus.OK);
 	}
 	
 	// 13 filterCriateria
-	@GetMapping(value="/add/search/")
+	@GetMapping(value="/search/")
 	public ResponseEntity<List<AdvertiseDto>> searchAddByFilter(
 	        @RequestParam (required=false) String searchText,
 	        @RequestParam (name = "title",required=false) String title,
@@ -78,5 +77,6 @@ public class AdvertiseController {
 
 
 
+	
 
 }
