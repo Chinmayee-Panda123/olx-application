@@ -17,8 +17,8 @@ public interface AdvertiseService {
 
 	boolean deleteById(int id);
 
-	List<AdvertiseDto> searchAddByFilter(String searchText, String title, String description, String postedBy,
-			String sortBy, Integer startIndex, Integer records);
+//	List<AdvertiseDto> searchAddByFilter(String searchText, String title, String description, String postedBy,
+//			String sortBy, Integer startIndex, Integer records);
 
 
 }

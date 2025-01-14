@@ -59,21 +59,21 @@ public class AdvertiseController {
 		return new ResponseEntity<>(addService.deleteById(id), HttpStatus.OK);
 	}
 	
-	// 13 filterCriateria
-	@GetMapping(value="/search/")
-	public ResponseEntity<List<AdvertiseDto>> searchAddByFilter(
-	        @RequestParam (required=false) String searchText,
-	        @RequestParam (name = "title",required=false) String title,
-	        @RequestParam (name = "description",required=false) String description,
-//	        @RequestParam (required=false, defaultValue = "0") int category,
-	        @RequestParam (name = "postedBy",required=false) String postedBy,
-	        @RequestParam (name = "sortBy",required=false) String sortBy,
-	        @RequestParam (name = "startIndex",required=false, defaultValue = "0") Integer startIndex,
-	        @RequestParam (name = "records",required=false, defaultValue = "10") Integer records
-	) {
-	    List<AdvertiseDto> results = addService.searchAddByFilter(searchText, title, description, postedBy, sortBy, startIndex, records);
-	    return new ResponseEntity<>(results, HttpStatus.OK);
-	}
+//	// 13 filterCriateria
+//	@GetMapping(value="/search/")
+//	public ResponseEntity<List<AdvertiseDto>> searchAddByFilter(
+//	        @RequestParam (required=false) String searchText,
+//	        @RequestParam (name = "title",required=false) String title,
+//	        @RequestParam (name = "description",required=false) String description,
+////	        @RequestParam (required=false, defaultValue = "0") int category,
+//	        @RequestParam (name = "postedBy",required=false) String postedBy,
+//	        @RequestParam (name = "sortBy",required=false) String sortBy,
+//	        @RequestParam (name = "startIndex",required=false, defaultValue = "0") Integer startIndex,
+//	        @RequestParam (name = "records",required=false, defaultValue = "10") Integer records
+//	) {
+//	    List<AdvertiseDto> results = addService.searchAddByFilter(searchText, title, description, postedBy, sortBy, startIndex, records);
+//	    return new ResponseEntity<>(results, HttpStatus.OK);
+//	}
 
 
 
