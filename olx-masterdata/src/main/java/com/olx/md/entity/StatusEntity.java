@@ -42,9 +42,4 @@ public class StatusEntity {
 		this.status = status;
 	}
 
-	
-	
-	
-	
-	
 }
