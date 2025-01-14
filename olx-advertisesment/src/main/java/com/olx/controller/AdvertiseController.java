@@ -1,14 +1,11 @@
 package com.olx.controller;
 
-import java.util.Date;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.WebRequest;
 
 import com.olx.dto.AdvertiseDto;
-import com.olx.entity.AdvertiseEntity;
-//import com.olx.exception.ErrorDetails;
-import com.olx.exception.ResourceNotFoundException;
 import com.olx.service.AdvertiseService;
 
 @RestController
@@ -68,16 +61,16 @@ public class AdvertiseController {
 	}
 	
 	// 13 filterCriateria
-	@GetMapping(value="/add/search")
+	@GetMapping(value="/add/search/")
 	public ResponseEntity<List<AdvertiseDto>> searchAddByFilter(
 	        @RequestParam (required=false) String searchText,
-	        @RequestParam (required=false) String title,
-	        @RequestParam (required=false) String description,
+	        @RequestParam (name = "title",required=false) String title,
+	        @RequestParam (name = "description",required=false) String description,
 //	        @RequestParam (required=false, defaultValue = "0") int category,
-	        @RequestParam (required=false) String postedBy,
-	        @RequestParam (required=false) String sortBy,
-	        @RequestParam (required=false, defaultValue = "0") int startIndex,
-	        @RequestParam (required=false, defaultValue = "10") int records
+	        @RequestParam (name = "postedBy",required=false) String postedBy,
+	        @RequestParam (name = "sortBy",required=false) String sortBy,
+	        @RequestParam (name = "startIndex",required=false, defaultValue = "0") Integer startIndex,
+	        @RequestParam (name = "records",required=false, defaultValue = "10") Integer records
 	) {
 	    List<AdvertiseDto> results = addService.searchAddByFilter(searchText, title, description, postedBy, sortBy, startIndex, records);
 	    return new ResponseEntity<>(results, HttpStatus.OK);

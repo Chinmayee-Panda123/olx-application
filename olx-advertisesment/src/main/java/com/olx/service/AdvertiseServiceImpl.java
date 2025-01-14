@@ -1,6 +1,7 @@
 package com.olx.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -100,57 +101,105 @@ public class AdvertiseServiceImpl implements AdvertiseService {
 		return true;
 	}
 
+//	@Override
+//	public List<AdvertiseDto> searchAddByFilter(String searchText,String title, String description, String postedBy, String sortBy, int startIndex,
+//			 int records) {
+//		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+//		CriteriaQuery<AdvertiseEntity> createQuery = builder.createQuery(AdvertiseEntity.class);
+//		Root<AdvertiseEntity>root=createQuery.from(AdvertiseEntity.class);
+//		
+//		Predicate searchTextPredicate=builder.and();
+//		Predicate titlePredicate=builder.and();
+//		Predicate descriptionPredicate=builder.and(); 
+//		
+//		if(searchText!=null && !"".equals(searchText))
+//		{
+//			 Predicate titleSearchTextPredicate = builder.like(root.get("title"),"%"+ searchText+"%"); //meaning -> name like '%searchText%' 
+//			 Predicate descriptionSearchTextPredicate = builder.like(root.get("description"),"%"+ searchText+"%");//meaning -> name like '%searchText%'
+//			 searchTextPredicate=builder.or(titleSearchTextPredicate,descriptionSearchTextPredicate);
+//		}
+//		
+////		build for "title" and "description"
+//		
+//		if(title!=null && !"".equals(title))
+//		{
+//			titlePredicate = builder.equal(root.get("title"), title); 
+//		}
+//		
+//		if(description!=null && !"".equals(description))
+//		{
+//			descriptionPredicate = builder.equal(root.get("description"), description);
+//		}
+//		
+//		if(sortBy!=null && !sortBy.isEmpty() ) 
+//		{
+//			if("asc".equalsIgnoreCase(sortBy))
+//			createQuery.orderBy(builder.asc(root.get("title")));
+//			
+//			if("desc".equalsIgnoreCase(sortBy))
+//				createQuery.orderBy(builder.desc(root.get("description")));
+//		}
+//		
+//		Predicate finalPredicate= builder.and(searchTextPredicate,titlePredicate,
+//				descriptionPredicate) ;
+//		
+//		createQuery.where(finalPredicate);
+//		
+//		TypedQuery<AdvertiseEntity>typedQuery=entityManager.createQuery(createQuery);
+//		typedQuery.setFirstResult(startIndex);
+//		typedQuery.setMaxResults(records);	
+//		List<AdvertiseEntity> stockEntities=typedQuery.getResultList();
+//		
+//		//code to map 
+//		return stockEntities.stream() 
+//				.map(entity -> modelMapper.map(entity, AdvertiseDto.class)) 
+//				.collect(Collectors.toList());
+//	}
+	
+	
 	@Override
-	public List<AdvertiseDto> searchAddByFilter(String searchText,String title, String description, String postedBy, String sortBy, int startIndex,
-			 int records) {
-		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<AdvertiseEntity> createQuery = builder.createQuery(AdvertiseEntity.class);
-		Root<AdvertiseDto>root=createQuery.from(AdvertiseDto.class);
-		
-		Predicate searchTextPredicate=builder.and();
-		Predicate titlePredicate=builder.and();
-		Predicate descriptionPredicate=builder.and(); 
-		
-		if(searchText!=null && !"".equals(searchText))
-		{
-			 Predicate titleSearchTextPredicate = builder.like(root.get("title"),"%"+ searchText+"%"); //meaning -> name like '%searchText%' 
-			 Predicate descriptionSearchTextPredicate = builder.like(root.get("description"),"%"+ searchText+"%");//meaning -> name like '%searchText%'
-			 searchTextPredicate=builder.or(titleSearchTextPredicate,descriptionSearchTextPredicate);
-		}
-		
-//		build for "title" and "description"
-		
-		if(title!=null && !"".equals(title))
-		{
-			titlePredicate = builder.equal(root.get("title"), title); 
-		}
-		
-		if(description!=null && !"".equals(description))
-		{
-			descriptionPredicate = builder.equal(root.get("description"), description);
-		}
-		
-		if(sortBy!=null && !"".equals(sortBy) ) 
-		{
-			if("asc".equalsIgnoreCase(sortBy))
-			createQuery.orderBy(builder.asc(root.get("title")));
-			
-			if("desc".equalsIgnoreCase(sortBy))
-				createQuery.orderBy(builder.desc(root.get("description")));
-		}
-		
-		Predicate finalPredicate= builder.and(searchTextPredicate,titlePredicate,
-				descriptionPredicate) ;
-		createQuery.where(finalPredicate);
-		
-		TypedQuery<AdvertiseEntity>typedQuery=entityManager.createQuery(createQuery);
-		typedQuery.setFirstResult(startIndex);
-		typedQuery.setMaxResults(records);	
-		List<AdvertiseEntity> stockEntities=typedQuery.getResultList();
-		
-		//code to map 
-		return stockEntities.stream() .map(entity -> modelMapper.map(entity, AdvertiseDto.class)) .collect(Collectors.toList());
+	public List<AdvertiseDto> searchAddByFilter(String searchText, String title, String description, String postedBy, String sortBy, int startIndex, int records) {
+	    CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<AdvertiseEntity> createQuery = builder.createQuery(AdvertiseEntity.class);
+	    Root<AdvertiseEntity> root = createQuery.from(AdvertiseEntity.class);
+
+	    List<Predicate> predicates = new ArrayList<>();
+
+	    if (searchText != null && !searchText.isEmpty()) {
+	        Predicate titleSearchTextPredicate = builder.like(root.get("title"), "%" + searchText + "%");
+	        Predicate descriptionSearchTextPredicate = builder.like(root.get("description"), "%" + searchText + "%");
+	        predicates.add(builder.or(titleSearchTextPredicate, descriptionSearchTextPredicate));
+	    }
+
+	    if (title != null && !title.isEmpty()) {
+	        predicates.add(builder.equal(root.get("title"), title));
+	    }
+
+	    if (description != null && !description.isEmpty()) {
+	        predicates.add(builder.equal(root.get("description"), description));
+	    }
+
+	    if (sortBy != null && !sortBy.isEmpty()) {
+	        if ("asc".equalsIgnoreCase(sortBy)) {
+	            createQuery.orderBy(builder.asc(root.get("title")));
+	        } else if ("desc".equalsIgnoreCase(sortBy)) {
+	            createQuery.orderBy(builder.desc(root.get("description")));
+	        }
+	    }
+
+	    createQuery.where(predicates.toArray(new Predicate[0]));
+
+	    TypedQuery<AdvertiseEntity> typedQuery = entityManager.createQuery(createQuery);
+	    typedQuery.setFirstResult(startIndex);
+	    typedQuery.setMaxResults(records);
+	    List<AdvertiseEntity> advertiseEntities = typedQuery.getResultList();
+
+	    // Map AdvertiseEntity to AdvertiseDto
+	    return advertiseEntities.stream()
+	            .map(entity -> modelMapper.map(entity, AdvertiseDto.class))
+	            .collect(Collectors.toList());
 	}
+
 
 	
 	
