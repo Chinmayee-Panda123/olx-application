@@ -21,18 +21,22 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public UserDto registerUser(UserDto userDto) {
-		UserEntity user = modelMapper.map(userDto, UserEntity.class);
-		
-		// Set default value for 'active' 
+		// Validate input
+        if (userDto.getUsername() == null || userDto.getUsername().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty");
+        }
+        if (userDto.getPassword() == null || userDto.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+		UserEntity user = modelMapper.map(userDto, UserEntity.class); 
 		if (user.getActive() == null) { 
 			user.setActive(ActiveStatus.TRUE);  
 			} 
-		// Set default value for 'roles' 
 		if (user.getRoles() == null || user.getRoles().isEmpty()) { 
 			user.setRoles("USER"); 
 		}
 		
-		userRepo.save(user);
-		return modelMapper.map(user, UserDto.class);
+		UserEntity savedUser = userRepo.save(user);
+		return modelMapper.map(savedUser, UserDto.class);
 	}
 }
