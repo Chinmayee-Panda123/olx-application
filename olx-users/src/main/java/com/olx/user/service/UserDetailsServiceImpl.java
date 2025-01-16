@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // Load user from USERS table using the Repository API
-        List<UserEntity> list = repository.findByUserName(username);
+        List<UserEntity> list = repository.findByUsername(username);
         
         if (list == null || list.isEmpty()) {
             throw new UsernameNotFoundException("User not found: " + username);
@@ -48,6 +48,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         // Return the UserDetails with encoded password (don't encode it again here)
-        return new User(entity.getUserName(), entity.getPassword(), authorities);
+        return new User(entity.getUsername(), entity.getPassword(), authorities);
     }
 }

@@ -8,6 +8,6 @@ import com.olx.user.entity.UserEntity;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer>{
 
-	List<UserEntity> findByUserName(String username);
+	List<UserEntity> findByUsername(String username);
 
 }
